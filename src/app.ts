@@ -3,6 +3,8 @@ import cors from 'cors';
 import { PrismaClient } from '@prisma/client';
 import globalErrorHandler from './app/middlewares/globalErrorHandler';
 import notFound from './app/middlewares/apiNotFound';
+import { userRoutes } from './app/modules/User/user.router';
+import { authRoutes } from './app/modules/Auth/auth.route';
 
 export const prisma = new PrismaClient();
 const app = express();
@@ -13,6 +15,8 @@ app.get('/', (req, res) => {
   res.send('Hello from lost and found');
 });
 
+app.use('/users', userRoutes);
+app.use('/auth', authRoutes);
 app.use(globalErrorHandler);
 app.use(notFound);
 
