@@ -1,7 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { TErrorSource } from '../interface/error';
 import { ZodError } from 'zod';
-import { STATUS_CODES } from 'http';
 import validationError from '../errors/validationError';
 
 const globalErrorHandler = (
@@ -19,8 +18,6 @@ const globalErrorHandler = (
         message: '',
       },
     ];
-
-    console.log(statusCode);
 
     const duplicateError = (error: any) => ({
       message: 'Violate Unique Constraint',
@@ -92,8 +89,6 @@ const globalErrorHandler = (
         },
       ];
     }
-
-    console.log({ statusCode });
 
     res.status(statusCode).json({
       success: false,
