@@ -46,14 +46,14 @@ model FoundItemCategory {
 model FoundItem {
   id            String            @id @default(uuid())
   userId        String
+  user          User              @relation(fields: [userId], references: [id])
   categoryId    String
+  category      FoundItemCategory @relation(fields: [categoryId], references: [id])
   foundItemName String
   description   String
   location      String
   createdAt     DateTime          @default(now())
   updateAt      DateTime          @updatedAt
-  user          User              @relation(fields: [userId], references: [id])
-  category      FoundItemCategory @relation(fields: [categoryId], references: [id])
   claim         Claim[]
 
   @@map("foundItems")

@@ -12,6 +12,4 @@ export const validationError = (error: ZodError) => {
             }
         })
     }
-};
-
-export default validationError
+}

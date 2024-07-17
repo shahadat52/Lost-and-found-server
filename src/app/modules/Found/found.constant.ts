@@ -1,0 +1,1 @@
+export const searchTermApplicableFields = ['foundItemName', 'location', 'description']

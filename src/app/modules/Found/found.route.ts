@@ -16,10 +16,16 @@ router.post(
 
 router.post(
     '/found-items',
-
     auth(),
     validateRequest(foundValidations.createFoundItemSchema),
     foundCollections.createFoundItem
+);
+
+
+router.get(
+    '/',
+    auth(),
+    foundCollections.getFoundItems
 )
 
 export const foundRoutes = router
