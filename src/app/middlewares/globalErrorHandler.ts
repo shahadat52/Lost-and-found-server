@@ -7,7 +7,7 @@ import httpStatus from "http-status";
 import AppError from "../errors/AppError";
 
 const globalErrorHandler = (err: Error | PrismaClientKnownRequestError, req: Request, res: Response, next: NextFunction) => {
-
+  console.log(err);
   let statusCode = 500
   let message = 'Something went wrong'
   let errorSource: TErrorSource[] = [

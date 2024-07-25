@@ -1,9 +1,6 @@
 import { JwtPayload } from "jsonwebtoken";
 import { prisma } from "../../../app"
-import { FoundItem } from "@prisma/client";
-import catchAsync from "../../utils/catchAsync";
 import { searchTermApplicableFields } from "./found.constant";
-import { object } from "zod";
 
 const createFoundItemCategoryInDB = async (data: any) => {
     const result = await prisma.foundItemCategory.create({ data })
@@ -11,7 +8,6 @@ const createFoundItemCategoryInDB = async (data: any) => {
 };
 
 const createFoundItemInDB = async (user: JwtPayload, data: any) => {
-    console.log(user);
     await prisma.foundItemCategory.findUniqueOrThrow({
         where: {
             id: data.categoryId
@@ -69,7 +65,7 @@ const createFoundItemInDB = async (user: JwtPayload, data: any) => {
             ]
 **/
 
-const getFoundItemsFromDB = async (query: any, option: Record<string, unknown>) => {
+const getFoundItemsFromDB = async (query: any, option: any) => {
     const { searchTerm, ...queryObj } = query
     let searchQuery = []
 
@@ -104,10 +100,10 @@ const getFoundItemsFromDB = async (query: any, option: Record<string, unknown>) 
     //         mode: 'insensitive'
     //     }
     // }));
-
-    const sortAndPagination = (query: {
+    type TOptions = {
         sortBy: string; page: string, limit: string, sortOrder: string
-    }) => {
+    }
+    const sortAndPagination = (query: TOptions) => {
         return {
             page: Number(query.page) || 1,
             limit: Number(query.limit) || 10,
@@ -122,7 +118,6 @@ const getFoundItemsFromDB = async (query: any, option: Record<string, unknown>) 
             queryObj.sortBy && queryObj.sortOrder ? { [queryObj.sortBy]: queryObj.sortOrder } : { 'createdAt': 'desc' }
 
     });
-    console.log(result);
     return result
 }
 
