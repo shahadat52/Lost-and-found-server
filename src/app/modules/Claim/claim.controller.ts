@@ -27,7 +27,6 @@ const getClaims = catchAsync(async (req, res) => {
 
 const updateClaimStatus = catchAsync(async (req, res) => {
     const { id } = req.params
-    console.log(id);
     const result = await claimServices.updateClaimStatusInDB(id, req.body)
 
     sendResponse(res, {

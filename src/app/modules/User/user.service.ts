@@ -2,6 +2,7 @@
 import { prisma } from '../../../app';
 import bcrypt from 'bcrypt'
 import config from '../../config';
+import { JwtPayload } from 'jsonwebtoken';
 const createUserInDB = async (data: any) => {
   const { password, email, name, profile } = data;
   const result = await prisma.$transaction(async (transactionFN) => {
@@ -47,6 +48,49 @@ const createUserInDB = async (data: any) => {
   return result;
 };
 
+const getProfileFromDB = async (user: JwtPayload) => {
+  const result = await prisma.userProfile.findUniqueOrThrow({
+    where: {
+      userId: user.id
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true
+        }
+      }
+    }
+  });
+  return result
+};
+
+const updateProfileInDB = async (user: JwtPayload, data: any) => {
+  const result = await prisma.userProfile.update({
+    where: {
+      userId: user.id
+    },
+    data: data,
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          createdAt: true,
+          updatedAt: true
+        }
+      }
+    }
+  });
+  return result
+};
+
 export const userServices = {
   createUserInDB,
+  getProfileFromDB,
+  updateProfileInDB
 };

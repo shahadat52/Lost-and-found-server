@@ -32,6 +32,11 @@ const getClaimsFromDB = async () => {
 };
 
 const updateClaimStatusInDB = async (id: string, status: { status: ClamStatus }) => {
+    await prisma.claim.findFirstOrThrow({
+        where: {
+            id
+        }
+    })
     const result = await prisma.claim.update({
         where: {
             id
@@ -40,9 +45,10 @@ const updateClaimStatusInDB = async (id: string, status: { status: ClamStatus })
             status: status.status
         }
     });
-    console.log(result);
     return result
-}
+};
+
+
 
 export const claimServices = {
     createClaimInDB,
